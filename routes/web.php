@@ -18,5 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+// CRUD route
 Route::resource('works', WorkController::class);
+
+//add search route
+Route::get('/search', 'App\Http\Controllers\WorkController@search')->name('search');

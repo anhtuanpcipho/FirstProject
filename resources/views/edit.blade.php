@@ -2,6 +2,8 @@
 
 @section('content')
 
+<h1>LARAVEL CRUD</h1>
+
 <style>
     .container {
       max-width: 450px;
@@ -30,12 +32,16 @@
         </ul>
       </div><br />
     @endif
-      <form method="post" action="{{ route('works.update', $work->id) }}">
+      <form method="post" action="{{ route('works.update', $work->id) }}" enctype="multipart/form-data">
           <div class="form-group">
               @csrf
               @method('PATCH')
               <label for="title">Title</label>
               <input type="text" class="form-control" name="title" value="{{ $work->title }}"/>
+          </div>
+          <div class="form-group">
+              <label for="image">Image</label>
+              <input type="file" class="form-control" name="image" value="{{ $work->image }}"/>
           </div>
           <div class="form-group">
               <label for="creator">Creator</label>

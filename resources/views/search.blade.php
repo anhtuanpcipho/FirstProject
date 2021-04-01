@@ -17,6 +17,10 @@
 </form>
 </div>
 
+<div style="margin-bottom:15px;">
+  <a href="http://localhost:8000/works" class="btn btn-primary btn-sm"">Home</a>
+</div>
+
 <div>
   <a href="{{ route('works.create')}}" class="btn btn-primary btn-sm"">Add Work</a>
 </div>
@@ -40,7 +44,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($work as $works)
+        @foreach($posts as $works)
         <tr>
             <td>{{$works->id}}</td>
             <td><img src="{{ Storage::drive('storage')->url($works->image) }}" style="width:60px;height:60px;"></td>

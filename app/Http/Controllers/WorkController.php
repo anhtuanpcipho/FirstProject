@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Models\Work;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class WorkController extends Controller
 {
@@ -38,12 +41,23 @@ class WorkController extends Controller
     {
         $storeData = $request->validate([
             'title' => 'required|max:255',
+            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
             'creator' => 'required|max:255',
             'deadline' => 'required|max:255',
             'workdone' => 'required|numeric',
         ]);
-        $work = Work::create($storeData);
-
+        
+        $work = new Work();
+        $work->title = $storeData['title'];
+        $work->creator = $storeData['creator'];
+        $work->deadline = $storeData['deadline'];
+        $work->workdone = $storeData['workdone'];
+        $file = $storeData['image'];
+        $destinationPath = storage_path('/app/public');
+        $name = $file->getClientOriginalName();
+        $file->move($destinationPath, $name);
+        $work->image = $name;
+        $work->save();
         return redirect('/works')->with('completed', 'Work has been saved!');
     }
 
@@ -81,11 +95,19 @@ class WorkController extends Controller
     {
         $updateData = $request->validate([
             'title' => 'required|max:255',
+            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
             'creator' => 'required|max:255',
             'deadline' => 'required|max:255',
             'workdone' => 'required|numeric',
         ]);
+        $file = $updateData['image'];
+        $destinationPath = storage_path('/app/public');
+        $name = $file->getClientOriginalName();
+        $file->move($destinationPath, $name);
+        $updateData['image'] = $name;
+
         Work::whereId($id)->update($updateData);
+
         return redirect('/works')->with('completed', 'work has been updated!!!');
     }
 
@@ -101,5 +123,21 @@ class WorkController extends Controller
         $work->delete();
 
         return redirect('/works')->with('completed', 'work has been deleted!!!');
+    }
+
+    // Add function for search record!!!
+    public function search(Request $request)
+    {
+        // Get the search value from the request
+        $search = $request->get('search');
+    
+        // Search in the title and body columns from the posts table
+        $posts = DB::table('works')
+            ->where('id', 'LIKE', "%{$search}%")
+            ->orWhere('creator', 'LIKE', "%{$search}%")
+            ->get();
+    
+        // Return the search view with the resluts compacted
+        return view('search', compact('posts'));
     }
 }
