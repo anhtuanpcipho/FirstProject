@@ -21,6 +21,7 @@ class WorkController extends Controller
         return view('index', compact('work'));
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -140,4 +141,17 @@ class WorkController extends Controller
         // Return the search view with the resluts compacted
         return view('search', compact('posts'));
     }
+
+
+    // Add function for livesearch record!!
+    public function livesearch(Request $request){
+        $inputSearch = $request['inputSearch'];
+        $keyResult = DB::table('works')
+            ->where('id', 'LIKE', "%{$inputSearch}%")
+            ->orWhere('creator', 'LIKE', "%{$inputSearch}%")
+            ->get();
+        echo $keyResult;
+    }
+    
 }
+

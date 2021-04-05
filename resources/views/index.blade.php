@@ -17,9 +17,14 @@
 </form>
 </div>
 
-<div>
+<div style="margin-bottom:10px">
   <a href="{{ route('works.create')}}" class="btn btn-primary btn-sm"">Add Work</a>
 </div>
+
+<div>
+  <a href="http://localhost:8000/livesearch" class="btn btn-primary btn-sm"">Go to Live Search</a>
+</div>
+
 <div class="push-top">
   @if(session()->get('success'))
     <div class="alert alert-success">

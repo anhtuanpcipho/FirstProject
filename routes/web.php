@@ -23,3 +23,11 @@ Route::resource('works', WorkController::class);
 
 //add search route
 Route::get('/search', 'App\Http\Controllers\WorkController@search')->name('search');
+
+Route::get('livesearch', function () {
+    return view('livesearch');
+});
+
+Route::post('livesearch','App\Http\Controllers\WorkController@livesearch');
+
+Route::get('/loadimage', 'App\Http\Controllers\WorkController@loadimage')->name('loadimage');
