@@ -10,7 +10,7 @@
 <h1>LARAVEL CRUD</h1>
 
 <div style="margin:10px;text-align:right;">
-<a href="{{ route('logins')}}" class="btn btn-primary btn-sm"">Login</a>
+<p>Welcome {{$email}}</p>
 <a href="{{ route('signup')}}" class="btn btn-primary btn-sm"" style="display: inline-block">Signup</a>
 </div>
 

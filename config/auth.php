@@ -46,6 +46,14 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'login_user' => [
+            'driver' => 'session',
+            'provider' => 'login_user',
+        ],
+        'login_user_api' => [
+            'driver' => 'token',
+            'provider' => 'login_users',
+        ],
     ],
 
     /*
@@ -68,13 +76,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\LoginUser::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'login_users' => [
+            'driver' => 'eloquent',
+            'model' => App\LoginUser::class,
+        ],
     ],
 
     /*

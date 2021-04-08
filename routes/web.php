@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WorkController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,9 @@ use App\Http\Controllers\WorkController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 // CRUD route
 Route::resource('works', WorkController::class);
@@ -30,4 +31,10 @@ Route::get('livesearch', function () {
 
 Route::post('livesearch','App\Http\Controllers\WorkController@livesearch');
 
-Route::get('/loadimage', 'App\Http\Controllers\WorkController@loadimage')->name('loadimage');
+Route::get('/logins', 'App\Http\Controllers\LoginController@getLogin')->name('logins');
+
+route::post('/postLogin', 'App\Http\Controllers\LoginController@postLogin')->name('postLogin');
+
+Route::get('/signup', 'App\Http\Controllers\LoginController@signup')->name('signup');
+
+Route::post('/postsignup', 'App\Http\Controllers\LoginController@postSignup')->name('postSignup');
