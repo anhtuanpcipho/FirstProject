@@ -43,6 +43,7 @@
               <label for="password">Password</label>
               <input type="password" class="form-control" name="password" placeholder="Input Password"/>
           </div>
+          
           <button type="submit" class="btn btn-block btn-danger">Submit</button>
       </form>
   </div>

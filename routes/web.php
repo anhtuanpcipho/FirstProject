@@ -38,3 +38,9 @@ route::post('/postLogin', 'App\Http\Controllers\LoginController@postLogin')->nam
 Route::get('/signup', 'App\Http\Controllers\LoginController@signup')->name('signup');
 
 Route::post('/postsignup', 'App\Http\Controllers\LoginController@postSignup')->name('postSignup');
+
+Route::get('/logout', 'App\Http\Controllers\LoginController@logOut')->name('logout');
+
+Route::get('/check', function() {
+    return view('check');
+});

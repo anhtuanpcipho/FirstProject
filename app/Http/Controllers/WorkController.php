@@ -120,6 +120,9 @@ class WorkController extends Controller
      */
     public function destroy($id)
     {
+
+        $this->authorize('delete-work');
+
         $work = Work::findOrFail($id);
         $work->delete();
 
@@ -145,6 +148,7 @@ class WorkController extends Controller
 
     // Add function for livesearch record!!
     public function livesearch(Request $request){
+        //$this->authorize('search');
         $inputSearch = $request['inputSearch'];
         $keyResult = DB::table('works')
             ->where('id', 'LIKE', "%{$inputSearch}%")

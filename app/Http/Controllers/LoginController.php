@@ -6,7 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LoginUser;
-
+use App\Models\Work;
+use DB;
 
 class LoginController extends Controller
 {
@@ -107,10 +108,17 @@ class LoginController extends Controller
 
         if (Auth::attempt(array('email' => $email, 'password' => $password))) {
             // code goes here...
-            $request->session()->regenerate();
+            //$request->session()->regenerate();
 
+            $session = DB::table('login_users')->where('email','LIKE',"{$email}")->get();
+            if(count($session)>0){
+                $request->session()->put('id',$request->id);
+                $request->session()->put('email',$request->email);
+            }
+            
+            $work = Work::all();
             //return redirect()->intended('/works');
-            return view('loggedin', compact('email'));
+            return view('loggedin', compact('email','work'));
         } else {
         // code goes here...
         return back()->withErrors([
@@ -127,6 +135,7 @@ class LoginController extends Controller
         ]);
         $login = new LoginUser();
         $login->email = $storeData['email'];
+        $login->role = $request->role;
         $login->password = bcrypt($storeData['password']);
         $login->save();
         return redirect('/works')->with('completed', 'Successfully register!');
@@ -135,5 +144,12 @@ class LoginController extends Controller
     public function signup()
     {
         return view('signup');
+    }
+
+    public function logOut(Request $rq)
+    {
+        $rq->session()->forget('id');
+        $rq->session()->forget('email');
+        return redirect('/logins');
     }
 }

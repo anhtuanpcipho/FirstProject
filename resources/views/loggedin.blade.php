@@ -9,10 +9,19 @@
 </style>
 <h1>LARAVEL CRUD</h1>
 
+@if(session()->get('email')=="")
 <div style="margin:10px;text-align:right;">
-<p>Welcome {{$email}}</p>
+<a href="{{ route('logins')}}" class="btn btn-primary btn-sm"">Login</a>
 <a href="{{ route('signup')}}" class="btn btn-primary btn-sm"" style="display: inline-block">Signup</a>
 </div>
+@endif
+
+@if(!(session()->get('email')==""))
+<div style="margin:10px;text-align:right;">
+<p><strong>Welcome</strong> <i>{{ session()->get('email') }}</i></p>
+<a href="{{ route('logout') }}" class="btn btn-primary btn-sm"" style="display: inline-block">Logout</a>
+</div>
+@endif
 
 <div style="margin:10px;text-align:right;">
 <form action="{{ route('search')}}" method="get">

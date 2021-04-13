@@ -3,7 +3,7 @@
 @section('content')
 
 <h1>LARAVEL CRUD</h1>
-<h2>Login</h2>
+<h2>Signup</h2>
 
 <style>
     .container {
@@ -43,6 +43,15 @@
               <label for="password">Password</label>
               <input type="password" class="form-control" name="password" placeholder="Input Password"/>
           </div>
+
+          <div class="form-group">
+              <label for="role">You are: </label>
+              <select id="role" class="form-control" name="role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+          </div>
+
           <button type="submit" class="btn btn-block btn-danger">Submit</button>
       </form>
   </div>
