@@ -29,5 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-work', function(LoginUser $loginUser){
             return $loginUser->role === 'admin';
         });
+
+        Gate::define('log-in', function(LoginUser $user, $session){
+            return $session != "";
+        });
     }
 }

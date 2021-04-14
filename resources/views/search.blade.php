@@ -18,11 +18,11 @@
 </div>
 
 <div style="margin-bottom:15px;">
-  <a href="http://localhost:8000/works" class="btn btn-primary btn-sm"">Home</a>
+  <a href="/works" class="btn btn-primary btn-sm">Home</a>
 </div>
 
 <div>
-  <a href="{{ route('works.create')}}" class="btn btn-primary btn-sm"">Add Work</a>
+  <a href="{{ route('works.create')}}" class="btn btn-primary btn-sm">Add Work</a>
 </div>
 <div class="push-top">
   @if(session()->get('success'))

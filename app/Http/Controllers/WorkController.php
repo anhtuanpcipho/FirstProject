@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Work;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class WorkController extends Controller
 {
@@ -29,6 +30,13 @@ class WorkController extends Controller
      */
     public function create()
     {
+        $valueSession = session()->get('email');
+        //if($valueSession == "")
+        if(Gate::denies('log-in', [$valueSession])) {
+            //dd(session()->get('email'));
+            abort(404);
+        }
+
         return view('create');
     }
 
@@ -40,25 +48,30 @@ class WorkController extends Controller
      */
     public function store(Request $request)
     {
+        $N = count($request->title);
+
         $storeData = $request->validate([
-            'title' => 'required|max:255',
-            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
-            'creator' => 'required|max:255',
-            'deadline' => 'required|max:255',
-            'workdone' => 'required|numeric',
+            'title.*' => 'required|max:255',
+            'image.*' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'creator.*' => 'required|max:255',
+            'deadline.*' => 'required|max:255',
+            'workdone.*' => 'required|numeric',
         ]);
         
-        $work = new Work();
-        $work->title = $storeData['title'];
-        $work->creator = $storeData['creator'];
-        $work->deadline = $storeData['deadline'];
-        $work->workdone = $storeData['workdone'];
-        $file = $storeData['image'];
-        $destinationPath = storage_path('/app/public');
-        $name = $file->getClientOriginalName();
-        $file->move($destinationPath, $name);
-        $work->image = $name;
-        $work->save();
+        for($i = 0; $i <= $N-1; $i++) {
+            $work = new Work();
+            $work->title = $storeData['title'][$i];
+            $work->creator = $storeData['creator'][$i];
+            $work->deadline = $storeData['deadline'][$i];
+            $work->workdone = $storeData['workdone'][$i];
+            $file = $storeData['image'][$i];
+            $destinationPath = storage_path('/app/public');
+            $name = $file->getClientOriginalName();
+            $file->move($destinationPath, $name);
+            $work->image = $name;
+            $work->save();
+        }
+        
         return redirect('/works')->with('completed', 'Work has been saved!');
     }
 

@@ -24,7 +24,7 @@
             </div>
         </div>
         <div id="searchResult" class="row m-0 mt-4" style="display: none;">
-        
+    
         </div>
     </div>
 </body>
