@@ -17,7 +17,7 @@ class CreateWorksTable extends Migration
             $table->bigIncrements('id');
             $table->string('image');
             $table->string('title');
-            $table->string('creator');
+            $table->string('collaborator');
             $table->timestamps();
             $table->string('deadline');
             $table->string('workdone');

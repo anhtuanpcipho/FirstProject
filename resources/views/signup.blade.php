@@ -2,25 +2,26 @@
 
 @section('content')
 
-<h1>LARAVEL CRUD</h1>
-<h2>Signup</h2>
+
 
 <style>
     .container {
-      max-width: 450px;
+      max-width: 650px;
     }
     .push-top {
       margin-top: 50px;
     }
 </style>
 
-<div>
-  <a href="{{ route('works.index')}}" class="btn btn-primary btn-sm"">Back</a>
+
+<div class="container">
+<h1>LARAVEL CRUD</h1>
+<h2>Signup</h2>
 </div>
 
-<div class="card push-top">
+<div class="container card push-top">
   <div class="card-header">
-    Create your acocunt!!!
+    Create your account!!!
   </div>
 
   <div class="card-body">

@@ -4,6 +4,12 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+use App\Models\Work;
+
+use Illuminate\Support\Str;
+
+use DB;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -14,5 +20,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        for ($i=0; $i < 1000; $i++) { 
+	    	DB::table('works')->insert([
+                'image' => '',
+                'collaborator' => 'default',
+                'title' => Str::random(10),
+                'deadline' => '22-2-2022',
+                'workdone' => '50',
+            ]);
+    	}
     }
 }

@@ -2,22 +2,19 @@
 
 @section('content')
 
-<h1>LARAVEL CRUD</h1>
 
 <style>
     .container {
-      max-width: 450px;
+      max-width: 650px;
     }
     .push-top {
       margin-top: 50px;
     }
 </style>
 
-<div>
-  <a href="{{ route('works.index')}}" class="btn btn-primary btn-sm"">Back</a>
-</div>
+<div class="container"><h1>LARAVEL CRUD</h1></div>
 
-<div class="card push-top">
+<div class="container card push-top">
   <div class="card-header">
     Edit & Update
   </div>
@@ -44,8 +41,8 @@
               <input type="file" class="form-control" name="image" value="{{ $work->image }}"/>
           </div>
           <div class="form-group">
-              <label for="creator">Creator</label>
-              <input type="text" class="form-control" name="creator" value="{{ $work->creator }}"/>
+              <label for="collaborator">Collaborator</label>
+              <input type="text" class="form-control" name="collaborator" value="default"/>
           </div>
           <div class="form-group">
               <label for="deadline">Deadline</label>

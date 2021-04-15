@@ -53,7 +53,7 @@ class WorkController extends Controller
         $storeData = $request->validate([
             'title.*' => 'required|max:255',
             'image.*' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
-            'creator.*' => 'required|max:255',
+            'collaborator.*' => 'required|max:255',
             'deadline.*' => 'required|max:255',
             'workdone.*' => 'required|numeric',
         ]);
@@ -61,7 +61,7 @@ class WorkController extends Controller
         for($i = 0; $i <= $N-1; $i++) {
             $work = new Work();
             $work->title = $storeData['title'][$i];
-            $work->creator = $storeData['creator'][$i];
+            $work->collaborator = $storeData['collaborator'][$i];
             $work->deadline = $storeData['deadline'][$i];
             $work->workdone = $storeData['workdone'][$i];
             $file = $storeData['image'][$i];
@@ -110,7 +110,7 @@ class WorkController extends Controller
         $updateData = $request->validate([
             'title' => 'required|max:255',
             'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
-            'creator' => 'required|max:255',
+            'collaborator' => 'required|max:255',
             'deadline' => 'required|max:255',
             'workdone' => 'required|numeric',
         ]);
@@ -151,7 +151,7 @@ class WorkController extends Controller
         // Search in the title and body columns from the posts table
         $posts = DB::table('works')
             ->where('id', 'LIKE', "%{$search}%")
-            ->orWhere('creator', 'LIKE', "%{$search}%")
+            ->orWhere('title', 'LIKE', "%{$search}%")
             ->get();
     
         // Return the search view with the resluts compacted
@@ -165,7 +165,7 @@ class WorkController extends Controller
         $inputSearch = $request['inputSearch'];
         $keyResult = DB::table('works')
             ->where('id', 'LIKE', "%{$inputSearch}%")
-            ->orWhere('creator', 'LIKE', "%{$inputSearch}%")
+            ->orWhere('collaborator', 'LIKE', "%{$inputSearch}%")
             ->get();
         echo $keyResult;
     }

@@ -29,7 +29,7 @@ Route::get('livesearch', function () {
     return view('livesearch');
 });
 
-Route::post('livesearch','App\Http\Controllers\WorkController@livesearch');
+Route::post('livesearch','App\Http\Controllers\WorkController@livesearch')->name('livesearch');
 
 Route::get('/logins', 'App\Http\Controllers\LoginController@getLogin')->name('logins');
 
