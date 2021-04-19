@@ -44,3 +44,5 @@ Route::get('/logout', 'App\Http\Controllers\LoginController@logOut')->name('logo
 Route::get('/check', function() {
     return view('check');
 });
+
+Route::post('/liveStore', 'App\Http\Controllers\WorkController@liveStore')->name('liveStore');

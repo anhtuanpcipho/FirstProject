@@ -14,65 +14,9 @@
       <meta name="csrf-token" content="{{ csrf_token() }}">
    </head>
    <body>
-         <!-- Modal to show live form to add works -->
-         <div class="modal fade" id="myModal">
-            <div class="modal-dialog">
-               <div class="modal-content">
-               
-               <!-- Modal Header -->
-               <div class="modal-header">
-                  <h4 class="modal-title">Add your work directly</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-               </div>
-               
-               <!-- Modal body -->
-               <div class="modal-body">
-
-               <!-- Throw errors if any field is ivalid -->
-               <div class="alert alert-danger">
-               
-               </div><br />
-
-               <!-- Add information about your work -->
-               <form method="post" action="{{ route('works.store') }}" enctype="multipart/form-data">
-                  <div class="card-header">
-                     Work 1
-                  </div>
-                  <div class="form-group">
-                        @csrf
-                        <label for="title[]">Title</label>
-                        <input type="text" class="form-control" name="title[]" placeholder="describe your task"/>
-                  </div>
-                  <div class="form-group">
-                        <label for="image[]">Upload your image</label>
-                        <input type="file" class="form-control" name="image[]"/>
-                  </div>
-                  <div class="form-group">
-                        <label for="collaborator[]">Collaborator</label>
-                        <input type="text" class="form-control" name="collaborator[]" value="default"/>
-                  </div>
-                  <div class="form-group">
-                        <label for="deadline[]">Deadline</label>
-                        <input type="text" class="form-control" name="deadline[]" placeholder="dd-mm-yyyy"/>
-                  </div>
-                  <div class="form-group">
-                        <label for="workdone[]">Work done (%)</label>
-                        <input type="number" class="form-control" name="workdone[]" placeholder="amount of work done"/>
-                  </div>
-               <button type="submit" class="btn btn-block btn-danger">Submit</button>
-               </form>
-
-               <!-- <button id = "btn1" class="btn btn-primary btn-sm" style="text-align:right;">Add another work!!</button> -->
-               </div>
-               
-               <!-- Modal footer -->
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-               </div>
-               
-               </div>
-            </div>
-         </div>
+         
+         @include('Script.addWork')
+         
 
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
       <ul class="navbar-nav">
@@ -118,11 +62,15 @@
       <div class="container-fluid">
          @yield('content')
       </div>
+      @yield('scripts')
+      @yield('scripts_livesearch')
 
 
       <!-- Add javascript -->
+
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" type="text/js"></script>
+      <script></script>
    </body>
 </html>

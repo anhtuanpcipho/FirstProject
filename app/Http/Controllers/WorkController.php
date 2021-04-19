@@ -8,6 +8,7 @@ use App\Models\Work;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
+use Validator;
 
 class WorkController extends Controller
 {
@@ -48,6 +49,7 @@ class WorkController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $N = count($request->title);
 
         $storeData = $request->validate([
@@ -58,6 +60,7 @@ class WorkController extends Controller
             'workdone.*' => 'required|numeric',
         ]);
         
+
         for($i = 0; $i <= $N-1; $i++) {
             $work = new Work();
             $work->title = $storeData['title'][$i];
@@ -72,7 +75,51 @@ class WorkController extends Controller
             $work->save();
         }
         
-        return redirect('/works')->with('completed', 'Work has been saved!');
+        //return redirect('/works')->with('completed', 'Work has been saved!');
+        // dd(response()->json([
+            
+        // ]));
+    }
+
+
+    public function liveStore(Request $request)
+    {
+        // $storeData = $request->validate([
+        //     'title' => 'required|max:255',
+        //     'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+        //     'collaborator' => 'required|max:255',
+        //     'deadline' => 'required|max:255',
+        //     'workdone' => 'required|numeric',
+        // ]);
+        //dd($request);
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|max:255',
+            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'collaborator' => 'required|max:255',
+            'deadline' => 'required|max:255',
+            'workdone' => 'required|numeric',
+        ]);
+
+        //console.log($validator);
+
+        if($validator->passes()){
+            $work = new Work();
+            $work->title = $request->title;
+            $work->collaborator = $request->collaborator;
+            $work->deadline = $request->deadline;
+            $work->workdone = $request->workdone;
+            $file = $request->image;
+            $destinationPath = storage_path('/app/public');
+            $name = $file->getClientOriginalName();
+            $file->move($destinationPath, $name);
+            $work->image = $name;
+            $work->save();
+
+            return response()->json(['status'=>1, 'msg'=>'Added a new work']);
+        }
+
+        return response()->json(['status'=>0, 'error'=>$validator->errors()->all()]);
+
     }
 
     /**
@@ -165,7 +212,7 @@ class WorkController extends Controller
         $inputSearch = $request['inputSearch'];
         $keyResult = DB::table('works')
             ->where('id', 'LIKE', "%{$inputSearch}%")
-            ->orWhere('collaborator', 'LIKE', "%{$inputSearch}%")
+            ->orWhere('title', 'LIKE', "%{$inputSearch}%")
             ->get();
         echo $keyResult;
     }
