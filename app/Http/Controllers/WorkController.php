@@ -49,7 +49,7 @@ class WorkController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
+        // dd($request->note[1]);
         $N = count($request->title);
 
         $storeData = $request->validate([
@@ -67,6 +67,9 @@ class WorkController extends Controller
             $work->collaborator = $storeData['collaborator'][$i];
             $work->deadline = $storeData['deadline'][$i];
             $work->workdone = $storeData['workdone'][$i];
+            if($i > 1) {
+                $work->note = $request->note[$i-2];
+            }
             $file = $storeData['image'][$i];
             $destinationPath = storage_path('/app/public');
             $name = $file->getClientOriginalName();
@@ -75,7 +78,7 @@ class WorkController extends Controller
             $work->save();
         }
         
-        //return redirect('/works')->with('completed', 'Work has been saved!');
+        return redirect('/works')->with('completed', 'Work has been saved!');
         // dd(response()->json([
             
         // ]));
@@ -108,6 +111,7 @@ class WorkController extends Controller
             $work->collaborator = $request->collaborator;
             $work->deadline = $request->deadline;
             $work->workdone = $request->workdone;
+            $work->note = $request->note;
             $file = $request->image;
             $destinationPath = storage_path('/app/public');
             $name = $file->getClientOriginalName();
@@ -115,7 +119,17 @@ class WorkController extends Controller
             $work->image = $name;
             $work->save();
 
-            return response()->json(['status'=>1, 'msg'=>'Added a new work']);
+            return response()->json(['status'=>1, 
+            'msg'=>'Added a new work',
+            'id' => $work->id,
+            'title' => $work->title,
+            'created_at' => $work->created_at,
+            'collaborator' => $work->collaborator,
+            'image' => $work->image,
+            'deadline' => $work->deadline,
+            'workdone' => $work->workdone,
+            'note' => $work->note
+            ]);
         }
 
         return response()->json(['status'=>0, 'error'=>$validator->errors()->all()]);
@@ -160,6 +174,7 @@ class WorkController extends Controller
             'collaborator' => 'required|max:255',
             'deadline' => 'required|max:255',
             'workdone' => 'required|numeric',
+            'note' => '',
         ]);
         $file = $updateData['image'];
         $destinationPath = storage_path('/app/public');

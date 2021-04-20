@@ -30,33 +30,42 @@
       </div><br />
     @endif
     <form method="post" action="{{ route('works.store') }}" enctype="multipart/form-data">
-        <div class="card-header">
-          Work 1
+        <div class="toBeClone">
+          <div class="card-header">
+            Work 1
+          </div>
+          <div class="form-group">
+              @csrf
+              <label for="title[]">Title</label>
+              <input type="text" class="form-control" name="title[]" placeholder="describe your task"/>
+          </div>
+          <div class="form-group">
+              <label for="image[]">Upload your image</label>
+              <input type="file" class="form-control" name="image[]"/>
+          </div>
+          <div class="form-group">
+              <label for="collaborator[]">Collaborator</label>
+              <input type="text" class="form-control" name="collaborator[]" value="default"/>
+          </div>
+          <div class="form-group">
+              <label for="deadline[]">Deadline</label>
+              <input type="text" class="form-control" name="deadline[]" placeholder="dd-mm-yyyy"/>
+          </div>
+          <div class="form-group">
+              <label for="workdone[]">Work done (%)</label>
+              <input type="number" class="form-control" name="workdone[]" placeholder="amount of work done"/>
+          </div>
+          
+          <div class="add-additional-field">
+
+          </div>
         </div>
-        <div class="form-group">
-            @csrf
-            <label for="title[]">Title</label>
-            <input type="text" class="form-control" name="title[]" placeholder="describe your task"/>
-        </div>
-        <div class="form-group">
-            <label for="image[]">Upload your image</label>
-            <input type="file" class="form-control" name="image[]"/>
-        </div>
-        <div class="form-group">
-            <label for="collaborator[]">Collaborator</label>
-            <input type="text" class="form-control" name="collaborator[]" value="default"/>
-        </div>
-        <div class="form-group">
-            <label for="deadline[]">Deadline</label>
-            <input type="text" class="form-control" name="deadline[]" placeholder="dd-mm-yyyy"/>
-        </div>
-        <div class="form-group">
-            <label for="workdone[]">Work done (%)</label>
-            <input type="number" class="form-control" name="workdone[]" placeholder="amount of work done"/>
-        </div>
-        <div id = "appendf">
+
+        <!-- This div is to be appended addition form infor -->
+        <div class = "appendf">
 
         </div>
+
         <button type="submit" class="btn btn-block btn-danger">Submit</button>
       </form>
 
@@ -72,34 +81,18 @@
   $(document).ready(function(){
     $("#btn1").click(function(){
         i += 1;
-        var demo = `
-        <hr style="width:100%;text-align:left;margin-left:0">
-        <hr style="width:100%;text-align:left;margin-left:0">
-        <div class="card-header">
-          Work `+i+`
-        </div>
-        <div class="form-group">
-            @csrf
-            <label for="title[]">Title</label>
-            <input type="text" class="form-control" name="title[]" placeholder="describe your task"/>
-        </div>
-        <div class="form-group">
-            <label for="image[]">Upload your image</label>
-            <input type="file" class="form-control" name="image[]"/>
-        </div>
-        <div class="form-group">
-            <label for="creator[]">Creator</label>
-            <input type="text" class="form-control" name="creator[]" placeholder="enter your full name"/>
-        </div>
-        <div class="form-group">
-            <label for="deadline[]">Deadline</label>
-            <input type="text" class="form-control" name="deadline[]" placeholder="dd-mm-yyyy"/>
-        </div>
-        <div class="form-group">
-            <label for="workdone[]">Work done (%)</label>
-            <input type="number" class="form-control" name="workdone[]" placeholder="amount of work done"/>
-        </div>`;
-        $("#appendf").append(demo);
+
+        var str = `<div class="form-group">
+            <label for="note[]">Note (No Compulsory!)</label>
+            <input type="text" class="form-control" name="note[]" placeholder="Note goes here..."/>
+        </div>`
+        // Clone part of form with jQuery
+        //TODO Need to remove dubplicate class
+        $("div.toBeClone").clone().removeClass("toBeClone").appendTo("div.appendf");
+        $("div.card-header").last().text("Work "+i);
+        if(i == 3){
+          $("div.add-additional-field").last().html(str);
+        }     
     });
   });
 </script>

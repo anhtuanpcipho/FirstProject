@@ -24,9 +24,10 @@ class DatabaseSeeder extends Seeder
 	    	DB::table('works')->insert([
                 'image' => '',
                 'collaborator' => 'default',
-                'title' => Str::random(10),
+                'title' => 'Text:'.Str::random(3),
                 'deadline' => '22-2-2022',
                 'workdone' => '50',
+                'note' => 'Default Note!',
             ]);
     	}
     }

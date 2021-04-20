@@ -8,8 +8,24 @@
             <input id="inputSearch" type="" class="form-control" name="">
         </div>
     </div>
-    <div id="searchResult" class="row m-0 mt-4" style="display: none;">
-
+    <div class="row m-0 mt-4">
+        <table class="table">
+            <thead>
+            <tr class="table-warning">
+            <td><b>ID</b></td>
+            <td><b>Image</b></td>
+            <td><b>Title</b></td>
+            <td><b>Collaborator</b></td>
+            <td><b>Created Date</b></td>
+            <td><b>Deadline</b></td>
+            <td><b>Workdone</b></td>
+            <td><b>Note</b></td>
+            </tr>
+            </thead>
+            <tbody id="searchResult" style="display: none;">
+            <!-- Content goes here!!!! -->
+            </tbody>
+        </table>
     </div>
 </div>
 

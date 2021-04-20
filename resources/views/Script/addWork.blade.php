@@ -48,6 +48,10 @@
                     <input type="number" class="form-control" name="workdone" placeholder="amount of work done"/>
                     <span class="text-danger error-text wo_error"></span>
                 </div>
+                <div class="form-group">
+                    <label for="workdone">Note (No Compulsory)</label>
+                    <input type="text" class="form-control" name="note" placeholder="Note goes here..."/>
+                </div>
             <button type="submit" class="btn btn-block btn-danger">Submit</button>
             </form>
 
@@ -102,10 +106,28 @@ $(function(){
                         console.log('Unvalidate message!');
                     });
                 } else {
-                    // $('#registerForm')[0].reset();
+                    resdata = data;
+                    
+                    //$('#registerForm')[0].reset();
+                    $('#myModal').modal('hide');
                     alert('Added a new work successfully!');
                     //redirect('/works');
+                    $("tr.tr-clone").last().clone().removeClass("tr-clone").addClass("first-clone").prependTo("tbody");
+                    //$("tbody")
+                    
                 }
+                console.log(resdata);
+                $("tr.first-clone td.id-class").first().text(data.id);
+                var imgref = "/storage/"+data.image
+                $("tr.first-clone td.image-class").first().html('<img src="/storage/'+data.image+'" style="width:60px;height:60px;">');
+                $("tr.first-clone td.title-class").first().text(data.title_at);
+                $("tr.first-clone td.collaborator-class").first().text(data.collaborator);
+                var timecreate = data.created_at.slice(0,10)+' '+data.created_at.slice(11,19);
+                $("tr.first-clone td.created_at-class").first().text(timecreate);
+                $("tr.first-clone td.deadline-class").first().text(data.deadline);
+                $("tr.first-clone td.workdone-class").first().text(data.workdone);
+                $("tr.first-clone td.note-class").first().text(data.note);
+                // $("tr.first-clone td.text-class").first().text(data.note);
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.log('PUT error.');
@@ -116,6 +138,17 @@ $(function(){
     });
 });
 
+// function after_add(resdata){
+//     console.log($("tr.tr-clone td.id-class").first().val());
+//     $("tr.tr-clone td.id-class").first().text(resdata.id);
+//     //$("td.image-class").last().html(data.created_at);
+//     $("tr.tr-clone td.title-class").first().text(resdata.title_at);
+//     $("tr.tr-clone td.collaborator-class").first().text(resdata.collaborator);
+//     $("tr.tr-clone td.created_at-class").first().text(resdata.created_at);
+//     $("tr.tr-clone td.deadline-class").first().text(resdata.deadline);
+//     $("tr.tr-clone td.workdone-class").first().text(resdata.workdone);
+//     $("tr.tr-clone td.note-class").first().text(resdata.note);
+// };
 </script>
 
 @endsection

@@ -21,6 +21,7 @@ class CreateWorksTable extends Migration
             $table->timestamps();
             $table->string('deadline');
             $table->string('workdone');
+            $table->string('note')->nullable();
         });
     }
 

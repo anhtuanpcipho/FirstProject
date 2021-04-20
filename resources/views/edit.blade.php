@@ -52,6 +52,10 @@
               <label for="workdone">Work done (%)</label>
               <input type="number" class="form-control" name="workdone" value="{{ $work->workdone }}"/>
           </div>
+          <div class="form-group">
+              <label for="workdone">Note (No Compulsory!)</label>
+              <input type="text" class="form-control" name="note" value="{{ $work->note }}"/>
+          </div>
           <button type="submit" class="btn btn-block btn-danger">Update Work</button>
       </form>
   </div>
