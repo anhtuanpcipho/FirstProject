@@ -103,7 +103,7 @@ class WorkController extends Controller
             'workdone' => 'required|numeric',
         ]);
 
-        //console.log($validator);
+        // dd($request->all());
 
         if($validator->passes()){
             $work = new Work();
@@ -123,7 +123,7 @@ class WorkController extends Controller
             'msg'=>'Added a new work',
             'id' => $work->id,
             'title' => $work->title,
-            'created_at' => $work->created_at,
+            'created_at' => $work->created_at->format('Y.m.d H:i:s'),
             'collaborator' => $work->collaborator,
             'image' => $work->image,
             'deadline' => $work->deadline,
@@ -159,6 +159,50 @@ class WorkController extends Controller
         return view('edit', compact('work'));
     }
 
+    public function liveEdit(Request $request)
+    {
+        $id = $request->id;
+        $updateData = Validator::make($request->all(),[
+            'title' => 'required|max:255',
+            'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
+            'collaborator' => 'required|max:255',
+            'deadline' => 'required|max:255',
+            'workdone' => 'required|numeric',
+            'note' => '',
+        ]);
+
+        if($updateData->passes()){
+            $updateWork['image'] = $request->image;
+            $file = $updateWork['image'];
+            $destinationPath = storage_path('/app/public');
+            $name = $file->getClientOriginalName();
+            $file->move($destinationPath, $name);
+
+            Work::where('id', $id)->update([
+                'title' => $request->title,
+                'image' => $name,
+                'collaborator' => $request->collaborator,
+                'deadline' => $request->deadline,
+                'workdone' => $request->workdone,
+                'note' => $request->note,
+            ]);
+            
+            return response()->json([
+                'status'=>1,
+                'id' => $id,
+                'image' => $name,
+                'title' => $request->title,
+                'collaborator' => $request->collaborator,
+                'deadline' => $request->deadline,
+                'workdone' => $request->workdone,
+                'note' => $request->note,
+            ]);
+        }
+
+        return response()->json(['status'=>0, 'status'=>0, 'error'=>$updateData->errors()->all()]);
+        
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -176,6 +220,9 @@ class WorkController extends Controller
             'workdone' => 'required|numeric',
             'note' => '',
         ]);
+
+        dd($updateData);
+
         $file = $updateData['image'];
         $destinationPath = storage_path('/app/public');
         $name = $file->getClientOriginalName();
@@ -202,6 +249,21 @@ class WorkController extends Controller
         $work->delete();
 
         return redirect('/works')->with('completed', 'work has been deleted!!!');
+    }
+
+    public function liveDelete(Request $request)
+    {
+        $this->authorize('delete-work');
+        $id = $request->id;
+        $work = Work::findOrFail($id);
+        $work->delete();
+
+        return response()->json([
+            'status' => '1',
+            'msg' => 'Delete successfully!!!',
+            'id' => $id,
+        ]);
+
     }
 
     // Add function for search record!!!

@@ -46,3 +46,7 @@ Route::get('/check', function() {
 });
 
 Route::post('/liveStore', 'App\Http\Controllers\WorkController@liveStore')->name('liveStore');
+
+Route::post('/liveEdit', 'App\Http\Controllers\WorkController@liveEdit')->name('liveEdit');
+
+Route::post('/liveDelete', 'App\Http\Controllers\WorkController@liveDelete')->name('liveDelete');

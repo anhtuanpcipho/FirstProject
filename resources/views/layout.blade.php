@@ -46,15 +46,15 @@
 
       @if(session()->get('email')=="")
       <div style="margin:10px;text-align:right;">
-      <a href="{{ route('logins')}}" class="btn btn-primary btn-sm"">Login</a>
-      <a href="{{ route('signup')}}" class="btn btn-primary btn-sm"" style="display: inline-block">Signup</a>
+      <a href="{{ route('logins')}}" class="btn btn-primary btn-sm">Login</a>
+      <a href="{{ route('signup')}}" class="btn btn-primary btn-sm" style="display: inline-block">Signup</a>
       </div>
       @endif
 
       @if(!(session()->get('email')==""))
       <div style="margin:10px;text-align:right;">
       <p><strong>Welcome</strong> <i>{{ session()->get('email') }}</i></p>
-      <a href="{{ route('logout') }}" class="btn btn-primary btn-sm"" style="display: inline-block">Logout</a>
+      <a href="{{ route('logout') }}" class="btn btn-primary btn-sm" style="display: inline-block">Logout</a>
       </div>
       @endif
       
@@ -64,6 +64,8 @@
       </div>
       @yield('scripts')
       @yield('scripts_livesearch')
+      @yield('scripts_edit_work')
+      @yield('scripts_delete_work')
 
 
       <!-- Add javascript -->
