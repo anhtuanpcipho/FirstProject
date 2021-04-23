@@ -79,12 +79,10 @@ $.ajaxSetup({
 
 $(function(){
     $.noConflict();
-
     $('#registerForm').submit(function(e){
         e.preventDefault();
         // alert('Hello')
         $.ajax({
-            
             method:"POST",
             headers:{
                 Accept:"application/json"
@@ -106,41 +104,30 @@ $(function(){
                         console.log('Unvalidate message!');
                     });
                 } else {
-                    
-                    //$('#registerForm')[0].reset();
                     $('#myModal').modal('hide');
                     alert('Added a new work successfully! Reload page to edit information!!!');
-                    //redirect('/works');
-                    // $("tr.tr-clone").last().clone().removeClass().addClass("tr-clone").addClass("tr"+data.id).prependTo("tbody");
                     var appendhtml = $("tr.tr-clone").last().clone();
                     var imgref = "/storage/"+data.image
                     appendhtml.children("td.id-class").text(data.id);
                     appendhtml.children("td.image-class").html('<img src="/storage/'+data.image+'" style="width:60px;height:60px;">');
                     appendhtml.children("td.title-class").text(data.title);
                     appendhtml.children("td.collaborator-class").text(data.collaborator);
-                    // var timecreate = data.created_at.slice(0,10)+' '+data.created_at.slice(11,19);
                     appendhtml.children("td.created_at-class").text(data.created_at);
                     appendhtml.children("td.deadline-class").text(data.deadline);
                     appendhtml.children("td.workdone-class").text(data.workdone);
                     appendhtml.children("td.note-class").text(data.note);
                     appendhtml.children("td.text-class button").first().attr("data-target","#edit"+data.id);
                     appendhtml.children("td.text-class button").last().attr("data-target","#delete"+data.id);
-
                     $(appendhtml).prependTo("tbody");
-
                     console.log(data);
                 }
-                
             },
             error: function (xhr, textStatus, errorThrown) {
+                alert('You may have not signed in or not have author to perform this action!!! If you have any question, please contact to the Admin! Thanks!')
                 console.log('PUT error.');
             }
-
         });
-
     });
 });
-
 </script>
-
 @endsection

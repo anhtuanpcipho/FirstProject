@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WorkController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\historyWork;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ use App\Http\Controllers\LoginController;
 
 // CRUD route
 Route::resource('works', WorkController::class);
+
+Route::resource('historyworks', historyWork::class);
 
 //add search route
 Route::get('/search', 'App\Http\Controllers\WorkController@search')->name('search');

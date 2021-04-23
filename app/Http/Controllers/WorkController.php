@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\Work;
+use App\Models\history_work;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
@@ -62,20 +63,21 @@ class WorkController extends Controller
         
 
         for($i = 0; $i <= $N-1; $i++) {
-            $work = new Work();
-            $work->title = $storeData['title'][$i];
-            $work->collaborator = $storeData['collaborator'][$i];
-            $work->deadline = $storeData['deadline'][$i];
-            $work->workdone = $storeData['workdone'][$i];
+            $work = new Work(); $h_work = new history_work();
+            $work->title = $storeData['title'][$i]; $h_work->title = $work->title;
+            $work->collaborator = $storeData['collaborator'][$i]; $h_work->collaborator = $work->collaborator;
+            $work->deadline = $storeData['deadline'][$i]; $h_work->deadline = $work->deadline;
+            $work->workdone = $storeData['workdone'][$i]; $h_work->workdone = $work->workdone;
             if($i > 1) {
-                $work->note = $request->note[$i-2];
+                $work->note = $request->note[$i-2]; $h_work->note = $work->note;
             }
             $file = $storeData['image'][$i];
             $destinationPath = storage_path('/app/public');
             $name = $file->getClientOriginalName();
             $file->move($destinationPath, $name);
-            $work->image = $name;
-            $work->save();
+            $work->image = $name; $h_work->image = $work->image;
+            $work->save(); $h_work->unique_id = $work->id;
+            $h_work->save();
         }
         
         return redirect('/works')->with('completed', 'Work has been saved!');
@@ -87,14 +89,12 @@ class WorkController extends Controller
 
     public function liveStore(Request $request)
     {
-        // $storeData = $request->validate([
-        //     'title' => 'required|max:255',
-        //     'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
-        //     'collaborator' => 'required|max:255',
-        //     'deadline' => 'required|max:255',
-        //     'workdone' => 'required|numeric',
-        // ]);
-        //dd($request);
+        $valueSession = session()->get('email');
+        //if($valueSession == "")
+        if(Gate::denies('log-in', [$valueSession])) {
+            //dd(session()->get('email'));
+            abort(404);
+        }
         $validator = Validator::make($request->all(),[
             'title' => 'required|max:255',
             'image' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
@@ -103,21 +103,19 @@ class WorkController extends Controller
             'workdone' => 'required|numeric',
         ]);
 
-        // dd($request->all());
-
         if($validator->passes()){
-            $work = new Work();
-            $work->title = $request->title;
-            $work->collaborator = $request->collaborator;
-            $work->deadline = $request->deadline;
-            $work->workdone = $request->workdone;
-            $work->note = $request->note;
+            $work = new Work(); $h_work = new history_work();
+            $work->title = $request->title; $h_work->title = $request->title;
+            $work->collaborator = $request->collaborator; $h_work->collaborator = $request->collaborator;
+            $work->deadline = $request->deadline; $h_work->deadline = $request->deadline;
+            $work->workdone = $request->workdone; $h_work->workdone = $request->workdone;
+            $work->note = $request->note; $h_work->note = $request->note;
             $file = $request->image;
             $destinationPath = storage_path('/app/public');
             $name = $file->getClientOriginalName();
             $file->move($destinationPath, $name);
-            $work->image = $name;
-            $work->save();
+            $work->image = $name; $h_work->image = $name;
+            $work->save(); $h_work->unique_id = $work->id; $h_work->save();
 
             return response()->json(['status'=>1, 
             'msg'=>'Added a new work',
@@ -161,6 +159,12 @@ class WorkController extends Controller
 
     public function liveEdit(Request $request)
     {
+        $valueSession = session()->get('email');
+        //if($valueSession == "")
+        if(Gate::denies('log-in', [$valueSession])) {
+            //dd(session()->get('email'));
+            abort(404);
+        }
         $id = $request->id;
         $updateData = Validator::make($request->all(),[
             'title' => 'required|max:255',
@@ -172,12 +176,17 @@ class WorkController extends Controller
         ]);
 
         if($updateData->passes()){
+            $h_work = new history_work();
+            $h_work->unique_id = $id; $h_work->collaborator = $request->collaborator;
+            $h_work->title = $request->title; $h_work->deadline = $request->deadline;
+            $h_work->workdone = $request->workdone; $h_work->note = $request->note;
             $updateWork['image'] = $request->image;
             $file = $updateWork['image'];
             $destinationPath = storage_path('/app/public');
             $name = $file->getClientOriginalName();
+            $h_work->image = $name;
             $file->move($destinationPath, $name);
-
+            // dd($updateData);
             Work::where('id', $id)->update([
                 'title' => $request->title,
                 'image' => $name,
@@ -186,7 +195,7 @@ class WorkController extends Controller
                 'workdone' => $request->workdone,
                 'note' => $request->note,
             ]);
-            
+            $h_work->save();
             return response()->json([
                 'status'=>1,
                 'id' => $id,
@@ -200,6 +209,7 @@ class WorkController extends Controller
         }
 
         return response()->json(['status'=>0, 'status'=>0, 'error'=>$updateData->errors()->all()]);
+        // return "kykuykyk";
         
     }
 
@@ -244,7 +254,6 @@ class WorkController extends Controller
     {
 
         $this->authorize('delete-work');
-
         $work = Work::findOrFail($id);
         $work->delete();
 
@@ -253,7 +262,8 @@ class WorkController extends Controller
 
     public function liveDelete(Request $request)
     {
-        $this->authorize('delete-work');
+        // dd($request);
+        // $this->authorize('delete-work');
         $id = $request->id;
         $work = Work::findOrFail($id);
         $work->delete();

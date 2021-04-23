@@ -18,7 +18,7 @@
             </div><br /> -->
 
             <!-- Add information about your work -->
-            <form method="post" action="{{ route('liveEdit') }}" id="editForm{{$currentId}}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('liveEdit') }}" class="editForm" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="id">ID: {{$currentId}}</label>
                     <input hidden type="text" class="form-control" name="id" value={{$currentId}} />

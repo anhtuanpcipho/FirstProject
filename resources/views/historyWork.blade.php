@@ -20,12 +20,10 @@
     <table class="table">
       <thead>
           <tr class="table-warning">
-            <td><b>History</b></td>
-            <td><b>ID</b></td>
             <td><b>Image</b></td>
             <td><b>Title</b></td>
             <td><b>Collaborator</b></td>
-            <td><b>Created Date</b></td>
+            <td><b>Created/Updated Date</b></td>
             <td><b>Deadline</b></td>
             <td><b>Workdone</b></td>
             <td><b>Note</b></td>
@@ -37,10 +35,6 @@
           @include('Script.script_Edit_Work')
           @foreach($work as $works)
           <tr class="tr-clone tr{{$works->id}}">
-              <td class="text-center his-class">
-                <a href="{{ route('historyworks.show', $works->id)}}" class="btn btn-primary btn-sm">Show History</a>
-              </td>
-              <td class="id-class">{{$works->id}}</td>
               <td class="image-class"><img src="{{ Storage::drive('storage')->url($works->image) }}" style="width:60px;height:60px;"></td>
               <td class="title-class">{{$works->title}}</td>
               <td class="collaborator-class">{{$works->collaborator}}</td>
