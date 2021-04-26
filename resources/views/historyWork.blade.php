@@ -9,7 +9,7 @@
 </style>
 
 <div class="container-xl">
-  <h1>LARAVEL CRUD</h1>
+  <h1>CRUD HISTORY</h1>
   <div class="push-top">
     
     @if(session()->get('success'))
@@ -43,13 +43,6 @@
               <td class="workdone-class">{{$works->workdone}}</td>
               <td class="note-class">{{$works->note}}</td>
               <td class="text-center text-class">
-                  <!-- <p style="display:hide">{{$interval = $works->id}}</p> -->
-                  <button class="btn btn-primary btn-sm edit-work-class" data-toggle="modal" data-target="#edit{{$works->id}}">Edit</button>
-                  <!-- <form action="{{ route('works.destroy', $works->id)}}" method="post" style="display: inline-block">
-                      @csrf
-                      @method('DELETE')
-                      <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                  </form> -->
                   <button class="btn btn-danger btn-sm delete-work-class" data-toggle="modal" data-target="#delete{{$works->id}}">Delete</button>
               </td>
           </tr>
@@ -65,9 +58,12 @@
           @include('deleteWork', ['currentId' => $works->id])
           @endforeach
 
-          
       </tbody>
     </table>
+    <form method="get" action=" {{ route('download_image') }} ">
+      <input hidden class="form-control" type="text" name="iddownload" value="{{ $work[0]->unique_id }}"/>
+      <button class="btn btn-primary" type="submit">Download all image</button>
+    </form> 
   </div>
 </div>
 

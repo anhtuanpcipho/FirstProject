@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\history_work;
+use Illuminate\Support\Facades\Storage;
+use File;
+use ZipArchive;
 
 class historyWork extends Controller
 {
@@ -83,5 +86,65 @@ class historyWork extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function download_image(Request $request)
+    {
+        $id = $request->iddownload;
+        $imageWork = DB::table('history_works')->where('unique_id',$id)->get();
+        //
+        // $url = storage_path('app/public')."/fruit1.jpg";
+        // $info = new \SplFileInfo($url);
+        // if ($info->isFile()) {
+        //     // dd($info->getRealPath());
+        //     return Storage::download($info->getRealPath());
+        // }
+        
+        // return Storage::download($url);
+        // $file_name = "/fruit1.jpg";
+        // // $header = 
+        // $path = storage_path('app/public/').$file_name;
+        // if (file_exists($path)) {
+        //     return response()->download($path);
+        // }
+
+        $zip = new ZipArchive;
+   
+        $fileName = 'historyImage.zip';
+        
+        if ($zip->open(public_path($fileName), ZipArchive::OVERWRITE) === TRUE)
+        {
+            $files = File::files(storage_path('app/public'));
+            // dd(storage_path('app/public/').'fruit1.jpg');  
+
+            // foreach ($imageWork as $value) {
+            //     $file_name = $value->image;
+            //     $path = storage_path('app/public/').$file_name;
+            //     if (Storage::disk('storage')->exists('file.jpg')) {
+            //         dd($image);
+            //         $image = Storage::get($value->image);
+            //         $zip->addFile($image, $value->image);
+            //     }
+            // }
+
+            foreach($imageWork as $key => $imageWorks){
+                // dd($imageWork);
+                foreach ($files as $value){
+                    $relativeNameInZipFile = basename($value);
+                    // dd($relativeNameInZipFile);
+                    if($imageWorks->image == $relativeNameInZipFile) $zip->addFile($value, $relativeNameInZipFile);
+                }
+            }
+            $zip->close();
+        }
+        // if (file_exists(public_path($fileName))) {
+        //     return response()->download(public_path($fileName));
+        // }
+        return response()->download(public_path($fileName));
+    }
+
+    public function showFull() {
+        $work = DB::table('history_works')->orderBy('unique_id')->get();
+        return view('showFull',compact('work'));
     }
 }

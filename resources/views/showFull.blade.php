@@ -10,7 +10,6 @@
 
 <div class="container-xl">
   <h1>LARAVEL CRUD</h1>
-  <a href="{{ route('full')}}" class="btn btn-primary btn-sm">Show full history</a>
   <div class="push-top container_resetcolor">
     
     @if(session()->get('success'))
@@ -22,7 +21,6 @@
     <table class="table">
       <thead>
           <tr class="table-warning">
-            <td><b>History</b></td>
             <td><b>ID</b></td>
             <td><b>Image</b></td>
             <td><b>Title</b></td>
@@ -38,11 +36,8 @@
           @include('Script.js_deleteWork')
           @include('Script.script_Edit_Work')
           @foreach($work as $works)
-          <tr class="tr-clone tr{{$works->id}}">
-              <td class="text-center his-class">
-                <a href="{{ route('historyworks.show', $works->id)}}" class="btn btn-primary btn-sm">Show History</a>
-              </td>
-              <td class="id-class">{{$works->id}}</td>
+          <tr class="tr-clone tr{{$works->unique_id}}">
+              <td class="id-class">{{$works->unique_id}}</td>
               <td class="image-class"><img src="{{ Storage::drive('storage')->url($works->image) }}" style="width:60px;height:60px;"></td>
               <td class="title-class">{{$works->title}}</td>
               <td class="collaborator-class">{{$works->collaborator}}</td>

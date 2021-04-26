@@ -5,6 +5,7 @@ use App\Http\Controllers\WorkController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\historyWork;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,3 +54,7 @@ Route::post('/liveStore', 'App\Http\Controllers\WorkController@liveStore')->name
 Route::post('/liveEdit', 'App\Http\Controllers\WorkController@liveEdit')->name('liveEdit');
 
 Route::post('/liveDelete', 'App\Http\Controllers\WorkController@liveDelete')->name('liveDelete');
+
+Route::get('/download_image','App\Http\Controllers\historyWork@download_image')->name('download_image');
+
+Route::get('show_full_history','App\Http\Controllers\historyWork@showFull')->name('full');
