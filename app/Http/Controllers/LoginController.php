@@ -117,8 +117,8 @@ class LoginController extends Controller
             }
             
             $work = Work::all();
-            //return redirect()->intended('/works');
-            return view('index', compact('email','work'));
+            return redirect()->intended('/works');
+            //return view('index', compact('email','work'));
         } else {
         // code goes here...
         return back()->withErrors([

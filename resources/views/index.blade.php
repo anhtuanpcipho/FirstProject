@@ -10,7 +10,7 @@
 
 <div class="container-xl">
   <h1>LARAVEL CRUD</h1>
-  <div class="push-top">
+  <div class="push-top container_resetcolor">
     
     @if(session()->get('success'))
       <div class="alert alert-success">

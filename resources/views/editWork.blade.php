@@ -1,7 +1,7 @@
 <!-- Modal to show live form to add works -->
-<div class="modal fade" id="edit{{$currentId}}">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal fade modal-edit-work" id="edit{{$currentId}}">
+    <div class="modal-dialog modal_dialog_edit">
+        <div class="modal-content modal_content_edit">
         
             <!-- Modal Header -->
             <div class="modal-header">
@@ -10,7 +10,7 @@
             </div>
             
             <!-- Modal body -->
-            <div class="modal-body">
+            <div class="modal-body body_edit_work">
 
             <!-- Throw errors if any field is ivalid -->
             <!-- <div class="alert alert-danger">
@@ -18,44 +18,44 @@
             </div><br /> -->
 
             <!-- Add information about your work -->
-            <form method="post" action="{{ route('liveEdit') }}" class="editForm" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="id">ID: {{$currentId}}</label>
-                    <input hidden type="text" class="form-control" name="id" value={{$currentId}} />
-                </div>
-                <div class="form-group">
-                    @csrf
-                    @method('POST')
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" name="title" value="{{ $title }}"/>
-                    <span class="text-danger error-text ti_error"></span>
-                </div>
-                <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" class="form-control" name="image" src="storage/{{ $image }}"/>
-                    <span class="text-danger error-text im_error"></span>
-                </div>
-                <div class="form-group">
-                    <label for="collaborator">Collaborator</label>
-                    <input type="text" class="form-control" name="collaborator" value="{{ $collaborator }}"/>
-                    <span class="text-danger error-text co_error"></span>
-                </div>
-                <div class="form-group">
-                    <label for="deadline">Deadline</label>
-                    <input type="text" class="form-control" name="deadline" value="{{ $deadline }}"/>
-                    <span class="text-danger error-text de_error"></span>
-                </div>
-                <div class="form-group">
-                    <label for="workdone">Work done (%)</label>
-                    <input type="number" class="form-control" name="workdone" value="{{ $workdone }}"/>
-                    <span class="text-danger error-text wo_error"></span>
-                </div>
-                <div class="form-group">
-                    <label for="workdone">Note (No Compulsory!)</label>
-                    <input type="text" class="form-control" name="note" value="{{ $note }}"/>
-                </div>
-            <button type="submit" class="btn btn-block btn-danger">Submit</button>
-            </form>
+                <form method="post" action="{{ route('liveEdit') }}" class="editForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="id" class="id-edit-work">ID: {{$currentId}}</label>
+                        <input hidden type="text" class="form-control id-edit" name="id" value={{$currentId}} />
+                    </div>
+                    <div class="form-group">
+                        @csrf
+                        @method('POST')
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control title-edit-work" name="title" value="{{ $title }}"/>
+                        <span class="text-danger error-text ti_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" class="form-control image-edit-work" name="image" src="storage/{{ $image }}"/>
+                        <span class="text-danger error-text im_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="collaborator">Collaborator</label>
+                        <input type="text" class="form-control collaborator-edit-work" name="collaborator" value="{{ $collaborator }}"/>
+                        <span class="text-danger error-text co_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="deadline">Deadline</label>
+                        <input type="text" class="form-control deadline-edit-work" name="deadline" value="{{ $deadline }}"/>
+                        <span class="text-danger error-text de_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="workdone">Work done (%)</label>
+                        <input type="number" class="form-control workdone-edit-work" name="workdone" value="{{ $workdone }}"/>
+                        <span class="text-danger error-text wo_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="workdone">Note (No Compulsory!)</label>
+                        <input type="text" class="form-control note-edit-work" name="note" value="{{ $note }}"/>
+                    </div>
+                <button type="submit" class="btn btn-block btn-danger">Submit</button>
+                </form>
 
             <!-- <button id = "btn1" class="btn btn-primary btn-sm" style="text-align:right;">Add another work!!</button> -->
             </div>

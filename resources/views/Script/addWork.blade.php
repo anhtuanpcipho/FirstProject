@@ -105,7 +105,8 @@ $(function(){
                     });
                 } else {
                     $('#myModal').modal('hide');
-                    alert('Added a new work successfully! Reload page to edit information!!!');
+                    alert('Added a new work successfully!');
+                    // Add a new line for work table
                     var appendhtml = $("tr.tr-clone").last().clone();
                     var imgref = "/storage/"+data.image
                     appendhtml.children("td.id-class").text(data.id);
@@ -116,10 +117,29 @@ $(function(){
                     appendhtml.children("td.deadline-class").text(data.deadline);
                     appendhtml.children("td.workdone-class").text(data.workdone);
                     appendhtml.children("td.note-class").text(data.note);
-                    appendhtml.children("td.text-class button").first().attr("data-target","#edit"+data.id);
-                    appendhtml.children("td.text-class button").last().attr("data-target","#delete"+data.id);
+                    appendhtml.children("td.text-class").children("button.edit-work-class").attr("data-target","#edit"+data.id);
+                    appendhtml.children("td.text-class").children("button.delete-work-class").attr("data-target","#delete"+data.id);
                     $(appendhtml).prependTo("tbody");
                     console.log(data);
+                    // Add a new modal for work's just updated
+                    var updateAddModal = $("div.modal-edit-work").last().clone();
+                    updateAddModal.attr("id","edit"+data.id);
+                    updateAddModal.find("label.id-edit-work").text("ID: "+data.id);
+                    updateAddModal.find("input.id-edit").attr("value",data.id);
+                    updateAddModal.find("input.title-edit-work").attr("value", data.title);
+                    updateAddModal.find("input.image-edit-work").attr("src","storage/"+data.image);
+                    updateAddModal.find("input.collaborator-edit-work").attr("value",data.collaborator);
+                    updateAddModal.find("input.deadline-edit-work").attr("value",data.deadline);
+                    updateAddModal.find("input.workdone-edit-work").attr("value",data.workdone);
+                    updateAddModal.find("input.note-edit-work").attr("value",data.note);
+                    $(updateAddModal).appendTo("tbody");
+                    // Add a new modal for deleting work's just updated
+                    var deleteAddModal = $("div.modal-delete-work").last().clone();
+                    deleteAddModal.attr("id","delete"+data.id);
+                    deleteAddModal.find("form.delete-work-id").attr("id","deleteForm"+data.id);
+                    deleteAddModal.find("input.confirm-delete").attr("value",data.id);
+                    deleteAddModal.find("p.reedit-id").html('<p>(ID: '+data.id+')</p>')
+                    $(deleteAddModal).appendTo("tbody");
                 }
             },
             error: function (xhr, textStatus, errorThrown) {

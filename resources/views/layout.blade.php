@@ -12,15 +12,37 @@
       <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
       <meta name="csrf-token" content="{{ csrf_token() }}">
+      <style>
+         .nav-link {
+            color: white !important;
+         }
+         .button_resetcolor {
+            background-color: gray !important;
+            border-color:gray !important;
+         }
+         .reset_textsize{
+            font-size: 17px !important;
+         }
+         body {
+            background-color: #bcbcbc !important;
+         }
+         .container_resetcolor {
+            background-color: #ffffff;
+         }
+         .footer_reset_color {
+            background-color: #3c3c3c;
+            color: white;
+         }
+      </style>
    </head>
    <body>
          
          @include('Script.addWork')
          
 
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
-      <ul class="navbar-nav">
-         <li class="nav-item active">
+      <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
+      <ul class="navbar-nav mr-auto">
+         <!-- <li class="nav-item active">
             <a class="nav-link" href="{{ route('works.index')}}">Home</a>
          </li>
          <li class="nav-item active">
@@ -31,18 +53,20 @@
          </li>
          <li class="nav-item active">
             <a href="#" class="nav-link" data-toggle="modal" data-target="#myModal">Live add works</a>
-         </li>
-         <li style="nav-item active">
-            <form class="form-inline my-2 my-lg-0" action="{{ route('search')}}" method="get">
-                  @csrf
-                  <input class="form-control" type="text" name="search" maxlength="100" style="width:60%" placeholder="Search any thing..." required/>
-                  <button class="btn btn-success" type="submit">Search</button>
-            </form>
-         </li>
+         </li> -->
+         <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-secondary btn-sm reset_textsize"><a class="nav-link nav_resetcolor" href="{{ route('works.index')}}"><b>Home</b></a></button>
+            <button type="button" class="btn btn-secondary btn-sm reset_textsize"><a class="nav-link nav_resetcolor" href="{{ route('works.create')}}"><b>Add Work</b></a></button>
+            <button type="button" class="btn btn-secondary btn-sm reset_textsize"><a class="nav-link nav_resetcolor" href="{{ route('livesearch') }}"><b>Go to Live Search</b></a></button>
+            <button type="button" class="btn btn-secondary btn-sm reset_textsize"><a href="#" class="nav-link nav_resetcolor" data-toggle="modal" data-target="#myModal"><b>Live add works</b></a></button>
+         </div>
       </ul>
+      <form class="form-inline my-6 my-lg-0" action="{{ route('search')}}" method="get">
+         @csrf
+         <input class="form-control" type="text" name="search" maxlength="100" style="width:60%" placeholder="Search any thing..." required/>
+         <button class="btn btn-primary button_resetcolor reset_textsize" type="submit"><b><i>Search</i></b></button>
+      </form>
       </nav>
-
-
 
       @if(session()->get('email')=="")
       <div style="margin:10px;text-align:right;">
@@ -62,6 +86,8 @@
       <div class="container-fluid">
          @yield('content')
       </div>
+
+      @include('footer')
       @yield('scripts')
       @yield('scripts_livesearch')
       @yield('scripts_edit_work')
