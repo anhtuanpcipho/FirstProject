@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WorkController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\historyWork;
+use App\Http\Controllers\emailController;
 
 
 /*
@@ -58,3 +59,5 @@ Route::post('/liveDelete', 'App\Http\Controllers\WorkController@liveDelete')->na
 Route::get('/download_image','App\Http\Controllers\historyWork@download_image')->name('download_image');
 
 Route::get('show_full_history','App\Http\Controllers\historyWork@showFull')->name('full');
+
+Route::get("send-email", [emailController::class, "sendEmail"]);

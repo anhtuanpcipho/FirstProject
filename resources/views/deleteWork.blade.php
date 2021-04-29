@@ -25,7 +25,7 @@
             
             <!-- Modal footer -->
             <div class="modal-footer">
-                <form method="post" class="delete-work-id" action="{{ route('liveDelete') }}" id="deleteForm{{$currentId}}" enctype="multipart/form-data">
+                <form method="post" class="delete-work-id deleteForm" action="{{ route('liveDelete') }}" enctype="multipart/form-data">
                     <input hidden type="text" class="form-control confirm-delete" name="id" value={{$currentId}} />
                     <button type="submit" class="btn btn-danger" >Yes, Delete permenantly!</button>
                 </form> 

@@ -262,8 +262,12 @@ class WorkController extends Controller
 
     public function liveDelete(Request $request)
     {
+        $valueSession = session()->get('email');
+        if(Gate::denies('log-in', [$valueSession])) {
+            abort(404);
+        }
         // dd($request);
-        // $this->authorize('delete-work');
+        $this->authorize('delete-work');
         $id = $request->id;
         $work = Work::findOrFail($id);
         $work->delete();
